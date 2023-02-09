@@ -84,7 +84,7 @@ services:
       --metrics-address=0.0.0.0
       --metrics-port=5054
       --metrics-allow-origin="*"
-      --builder ${BUILDER_RELAY_URL:-https://0xafa4c6985aa049fb79dd37010438cfebeb0f2bd42b115b89dd678dab0670c1de38da0c4e9138c9290a398ecd9a0b3110@builder-relay-goerli.flashbots.net}
+      --builder ${LIGHTHOUSE_BUILDER_RELAY_URL:-https://0xafa4c6985aa049fb79dd37010438cfebeb0f2bd42b115b89dd678dab0670c1de38da0c4e9138c9290a398ecd9a0b3110@builder-relay-goerli.flashbots.net}
     networks: [ cluster ]
     volumes:
       - ./data/lighthouse:/opt/app/beacon
@@ -126,7 +126,7 @@ services:
       --metrics-address=0.0.0.0
       --metrics-port=8008
       --payload-builder=true
-      --payload-builder-url=${BUILDER_RELAY_URL:-https://0xafa4c6985aa049fb79dd37010438cfebeb0f2bd42b115b89dd678dab0670c1de38da0c4e9138c9290a398ecd9a0b3110@builder-relay-goerli.flashbots.net}
+      --payload-builder-url=${NIMBUS_PAYLOAD_BUILDER_URL:-https://0xafa4c6985aa049fb79dd37010438cfebeb0f2bd42b115b89dd678dab0670c1de38da0c4e9138c9290a398ecd9a0b3110@builder-relay-goerli.flashbots.net}
     depends_on: [nethermind, nimbus-checkpoint-sync]
     networks: [ cluster ]
     volumes:
