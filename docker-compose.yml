@@ -89,6 +89,50 @@ services:
       - ./jwt:/opt/jwt
     restart: unless-stopped
 
+  #          _           _               
+  #  _ __ (_)_ __ ___ | |__  _   _ ___ 
+  # | '_ \| | '_ ` _ \| '_ \| | | / __|
+  # | | | | | | | | | | |_) | |_| \__ \
+  # |_| |_|_|_| |_| |_|_.__/ \__,_|___/
+  nimbus-checkpoint-sync:
+    image: statusim/nimbus-eth2:${NIMBUS_VERSION:-multiarch-v22.9.1}
+    command: trustedNodeSync --network=goerli --data-dir=/opt/data/ --trusted-node-url=https://goerli.checkpoint-sync.ethpandaops.io
+    networks: [ cluster ]
+    volumes:
+      - ./data/nimbus:/opt/data/
+
+  nimbus:
+    image: statusim/nimbus-eth2:${NIMBUS_VERSION:-multiarch-v22.9.1}
+    ports:
+      - ${NIMBUS_PORT_P2P:-9000}:9000/tcp # P2P TCP
+      - ${NIMBUS_PORT_P2P:-9000}:9000/udp # P2P UDP
+      - ${NIMBUS_PORT_HTTP:-5052}:5052/tcp
+      - ${NIMBUS_PORT_METRICS:-8008}:8008/tcp # Metrics port
+    restart: on-failure
+    command: |
+      --network=${ETH2_NETWORK:-goerli}
+      --data-dir=/opt/data/
+      --web3-url=http://nethermind:8551
+      --log-level=info
+      --tcp-port=9000
+      --udp-port=9000
+      --jwt-secret=/opt/jwt/jwt.hex
+      --rest
+      --rest-address=0.0.0.0
+      --rest-port=5052
+      --metrics
+      --metrics-address=0.0.0.0
+      --metrics-port=8008
+      --payload-builder=true
+      --payload-builder-url=${BUILDER_RELAY_URL:-https://0xafa4c6985aa049fb79dd37010438cfebeb0f2bd42b115b89dd678dab0670c1de38da0c4e9138c9290a398ecd9a0b3110@builder-relay-goerli.flashbots.net}
+    depends_on: [nethermind, nimbus-checkpoint-sync]
+    networks: [ cluster ]
+    volumes:
+      - ./data/nimbus:/opt/data/
+      - ./jwt:/opt/jwt/
+
+
+
   #       _                                  _ _            _
   #   ___| |__   __ _ _ __ ___  _ __     ___| (_) ___ _ __ | |_ ___
   #  / __| '_ \ / _` | '__/ _ \| '_ \   / __| | |/ _ \ '_ \| __/ __|
