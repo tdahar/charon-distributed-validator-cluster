@@ -148,6 +148,45 @@ services:
       CHARON_JAEGER_SERVICE: node5
       CHARON_P2P_EXTERNAL_HOSTNAME: node5
 
+  node6:
+    <<: *node-base
+    environment:
+      <<: *node-env
+      CHARON_PRIVATE_KEY_FILE: /opt/charon/.charon/cluster/node6/charon-enr-private-key
+      CHARON_LOCK_FILE: /opt/charon/.charon/cluster/node6/cluster-lock.json
+      CHARON_JAEGER_SERVICE: node6
+      CHARON_P2P_EXTERNAL_HOSTNAME: node6
+
+
+  node7:
+    <<: *node-base
+    environment:
+      <<: *node-env
+      CHARON_PRIVATE_KEY_FILE: /opt/charon/.charon/cluster/node7/charon-enr-private-key
+      CHARON_LOCK_FILE: /opt/charon/.charon/cluster/node7/cluster-lock.json
+      CHARON_JAEGER_SERVICE: node7
+      CHARON_P2P_EXTERNAL_HOSTNAME: node7
+
+
+  node8:
+    <<: *node-base
+    environment:
+      <<: *node-env
+      CHARON_PRIVATE_KEY_FILE: /opt/charon/.charon/cluster/node8/charon-enr-private-key
+      CHARON_LOCK_FILE: /opt/charon/.charon/cluster/node8/cluster-lock.json
+      CHARON_JAEGER_SERVICE: node8
+      CHARON_P2P_EXTERNAL_HOSTNAME: node8
+
+
+  node9:
+    <<: *node-base
+    environment:
+      <<: *node-env
+      CHARON_PRIVATE_KEY_FILE: /opt/charon/.charon/cluster/node9/charon-enr-private-key
+      CHARON_LOCK_FILE: /opt/charon/.charon/cluster/node9/cluster-lock.json
+      CHARON_JAEGER_SERVICE: node9
+      CHARON_P2P_EXTERNAL_HOSTNAME: node9
+
   relay:
     <<: *node-base
     command: relay
@@ -243,6 +282,60 @@ services:
     volumes:
       - .charon/cluster/node5/validator_keys:/opt/charon/validator_keys
       - ./teku:/opt/charon/teku
+
+
+  vc6-lighthouse:
+    image: sigp/lighthouse:${LIGHTHOUSE_VERSION:-v3.4.0}
+    entrypoint: /opt/lighthouse/run.sh
+    networks: [ cluster ]
+    depends_on: [ node6 ]
+    restart: unless-stopped
+    environment:
+      LIGHTHOUSE_BEACON_NODE_ADDRESS: http://node6:3600
+      ETH2_NETWORK: ${ETH2_NETWORK:-goerli}
+    volumes:
+      - ./lighthouse/run.sh:/opt/lighthouse/run.sh
+      - .charon/cluster/node6/validator_keys:/opt/charon/keys
+
+  vc7-lighthouse:
+    image: sigp/lighthouse:${LIGHTHOUSE_VERSION:-v3.4.0}
+    entrypoint: /opt/lighthouse/run.sh
+    networks: [ cluster ]
+    depends_on: [ node7 ]
+    restart: unless-stopped
+    environment:
+      LIGHTHOUSE_BEACON_NODE_ADDRESS: http://node7:3600
+      ETH2_NETWORK: ${ETH2_NETWORK:-goerli}
+    volumes:
+      - ./lighthouse/run.sh:/opt/lighthouse/run.sh
+      - .charon/cluster/node7/validator_keys:/opt/charon/keys
+
+  vc8-teku:
+    image: consensys/teku:${TEKU_VERSION:-22.12.0}
+    networks: [ cluster ]
+    depends_on: [ node8 ]
+    restart: unless-stopped
+    command: |
+      validator-client
+      --beacon-node-api-endpoint="http://node8:3600"
+      --config-file "/opt/charon/teku/teku-config.yaml"
+    volumes:
+      - .charon/cluster/node8/validator_keys:/opt/charon/validator_keys
+      - ./teku:/opt/charon/teku
+
+  vc9-teku:
+    image: consensys/teku:${TEKU_VERSION:-22.12.0}
+    networks: [ cluster ]
+    depends_on: [ node9 ]
+    restart: unless-stopped
+    command: |
+      validator-client
+      --beacon-node-api-endpoint="http://node9:3600"
+      --config-file "/opt/charon/teku/teku-config.yaml"
+    volumes:
+      - .charon/cluster/node9/validator_keys:/opt/charon/validator_keys
+      - ./teku:/opt/charon/teku
+
 
   #                        _ _             _
   #  _ __ ___   ___  _ __ (_) |_ ___  _ __(_)_ __   __ _

@@ -26,6 +26,18 @@ scrape_configs:
   - job_name: "charon-5"
     static_configs:
       - targets: ["node5:3620"]
+  - job_name: "charon-6"
+    static_configs:
+      - targets: ["node6:3620"]
+  - job_name: "charon-7"
+    static_configs:
+      - targets: ["node7:3620"]
+  - job_name: "charon-8"
+    static_configs:
+      - targets: ["node8:3620"]
+  - job_name: "charon-9"
+    static_configs:
+      - targets: ["node9:3620"]
   - job_name: "vc0"
     static_configs:
       - targets: ["vc0-lighthouse:5064"]
@@ -34,16 +46,29 @@ scrape_configs:
       - targets: ["vc1-teku:8008"]
   - job_name: "vc2"
     static_configs:
-      - targets: ["vc2-vouch:8081"]
+      - targets: ["vc2-lighthouse:5064"]
   - job_name: "vc3"
     static_configs:
-      - targets: ["vc3-lighthouse:5064"]
+      - targets: ["vc3-teku:8008"]
   - job_name: "vc4"
     static_configs:
-      - targets: ["vc4-teku:8008"]
+      - targets: ["vc4-lighthouse:5064"]
   - job_name: "vc5"
     static_configs:
-      - targets: ["vc5-vouch:8081"]
+      - targets: ["vc5-teku:8008"]
+  - job_name: "vc6"
+    static_configs:
+      - targets: ["vc6-lighthouse:5064"]
+  - job_name: "vc7"
+    static_configs:
+      - targets: ["vc7-teku:8008"]
+  - job_name: "vc8"
+    static_configs:
+      - targets: ["vc8-lighthouse:5064"]
+  - job_name: "vc9"
+    static_configs:
+      - targets: ["vc9-teku:8008"]
+
   - job_name: "node-exporter"
     static_configs:
       - targets: ["node-exporter:9100"]
