@@ -290,31 +290,31 @@ services:
       - ./lighthouse/run.sh:/opt/lighthouse/run.sh
       - .charon/cluster/node2/validator_keys:/opt/charon/keys
 
-  vc3-lighthouse:
-    image: sigp/lighthouse:${LIGHTHOUSE_VERSION:-v3.4.0}
-    entrypoint: /opt/lighthouse/run.sh
+  vc3-teku:
+    image: consensys/teku:${TEKU_VERSION:-22.12.0}
     networks: [ cluster ]
     depends_on: [ node3 ]
     restart: unless-stopped
-    environment:
-      LIGHTHOUSE_BEACON_NODE_ADDRESS: http://node3:3600
-      ETH2_NETWORK: ${ETH2_NETWORK:-goerli}
+    command: |
+      validator-client
+      --beacon-node-api-endpoint="http://node3:3600"
+      --config-file "/opt/charon/teku/teku-config.yaml"
     volumes:
-      - ./lighthouse/run.sh:/opt/lighthouse/run.sh
-      - .charon/cluster/node3/validator_keys:/opt/charon/keys
+      - .charon/cluster/node3/validator_keys:/opt/charon/validator_keys
+      - ./teku:/opt/charon/teku
 
-  vc4-teku:
-    image: consensys/teku:${TEKU_VERSION:-22.12.0}
+  vc4-lighthouse:
+    image: sigp/lighthouse:${LIGHTHOUSE_VERSION:-v3.4.0}
+    entrypoint: /opt/lighthouse/run.sh
     networks: [ cluster ]
     depends_on: [ node4 ]
     restart: unless-stopped
-    command: |
-      validator-client
-      --beacon-node-api-endpoint="http://node4:3600"
-      --config-file "/opt/charon/teku/teku-config.yaml"
+    environment:
+      LIGHTHOUSE_BEACON_NODE_ADDRESS: http://node4:3600
+      ETH2_NETWORK: ${ETH2_NETWORK:-goerli}
     volumes:
-      - .charon/cluster/node4/validator_keys:/opt/charon/validator_keys
-      - ./teku:/opt/charon/teku
+      - ./lighthouse/run.sh:/opt/lighthouse/run.sh
+      - .charon/cluster/node4/validator_keys:/opt/charon/keys
 
   vc5-teku:
     image: consensys/teku:${TEKU_VERSION:-22.12.0}
@@ -329,7 +329,6 @@ services:
       - .charon/cluster/node5/validator_keys:/opt/charon/validator_keys
       - ./teku:/opt/charon/teku
 
-
   vc6-lighthouse:
     image: sigp/lighthouse:${LIGHTHOUSE_VERSION:-v3.4.0}
     entrypoint: /opt/lighthouse/run.sh
@@ -343,31 +342,31 @@ services:
       - ./lighthouse/run.sh:/opt/lighthouse/run.sh
       - .charon/cluster/node6/validator_keys:/opt/charon/keys
 
-  vc7-lighthouse:
-    image: sigp/lighthouse:${LIGHTHOUSE_VERSION:-v3.4.0}
-    entrypoint: /opt/lighthouse/run.sh
+  vc7-teku:
+    image: consensys/teku:${TEKU_VERSION:-22.12.0}
     networks: [ cluster ]
     depends_on: [ node7 ]
     restart: unless-stopped
-    environment:
-      LIGHTHOUSE_BEACON_NODE_ADDRESS: http://node7:3600
-      ETH2_NETWORK: ${ETH2_NETWORK:-goerli}
+    command: |
+      validator-client
+      --beacon-node-api-endpoint="http://node7:3600"
+      --config-file "/opt/charon/teku/teku-config.yaml"
     volumes:
-      - ./lighthouse/run.sh:/opt/lighthouse/run.sh
-      - .charon/cluster/node7/validator_keys:/opt/charon/keys
+      - .charon/cluster/node7/validator_keys:/opt/charon/validator_keys
+      - ./teku:/opt/charon/teku
 
-  vc8-teku:
-    image: consensys/teku:${TEKU_VERSION:-22.12.0}
+  vc8-lighthouse:
+    image: sigp/lighthouse:${LIGHTHOUSE_VERSION:-v3.4.0}
+    entrypoint: /opt/lighthouse/run.sh
     networks: [ cluster ]
     depends_on: [ node8 ]
     restart: unless-stopped
-    command: |
-      validator-client
-      --beacon-node-api-endpoint="http://node8:3600"
-      --config-file "/opt/charon/teku/teku-config.yaml"
+    environment:
+      LIGHTHOUSE_BEACON_NODE_ADDRESS: http://node8:3600
+      ETH2_NETWORK: ${ETH2_NETWORK:-goerli}
     volumes:
-      - .charon/cluster/node8/validator_keys:/opt/charon/validator_keys
-      - ./teku:/opt/charon/teku
+      - ./lighthouse/run.sh:/opt/lighthouse/run.sh
+      - .charon/cluster/node8/validator_keys:/opt/charon/keys
 
   vc9-teku:
     image: consensys/teku:${TEKU_VERSION:-22.12.0}
