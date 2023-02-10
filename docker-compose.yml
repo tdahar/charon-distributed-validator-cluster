@@ -37,6 +37,7 @@ services:
       - ${NETHERMIND_PORT_P2P:-30303}:30303/udp # P2P UDP
       - ${NETHERMIND_PORT_HTTP:-8545}:8545 # JSON-RPC
       - ${NETHERMIND_PORT_ENGINE:-8551}:8551 # ENGINE-API
+      - ${NETHERMIND_METRICS_PORT:-8645}:8645 # METRICS PORT
     command: |
       --config=${ETH2_NETWORK:-goerli}
       --datadir=data
@@ -47,6 +48,8 @@ services:
       --JsonRpc.EnginePort=8551
       --JsonRpc.Host=0.0.0.0
       --JsonRpc.Port=8545
+      --Metrics.Enabled=true
+      --Metrics.ExposePort=8645
       --Sync.SnapSync=true 
       --Sync.AncientBodiesBarrier=4367322
       --Sync.AncientReceiptsBarrier=4367322

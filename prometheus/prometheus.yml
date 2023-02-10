@@ -8,6 +8,15 @@ remote_write:
       credentials: $PROM_REMOTE_WRITE_TOKEN
 
 scrape_configs:
+  - job_name: 'nethermind'
+    static_configs:
+      - targets: ['nethermind:8645']
+  - job_name: 'bn-lighthouse'
+    static_configs:
+      - targets: ['lighthouse:5054']
+  - job_name: 'bn-nimbus'
+    static_configs:
+      - targets: ['nimbus:8008']
   - job_name: "charon-0"
     static_configs:
       - targets: ["node0:3620"]
