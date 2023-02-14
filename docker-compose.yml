@@ -6,7 +6,9 @@ x-node-base:
   image: obolnetwork/charon:${CHARON_VERSION:-v0.13.0}
   restart: unless-stopped
   networks: [ cluster ]
-  depends_on: [ relay ]
+  # depends_on: [ relay ]
+  ports:
+    - 3610:3610
   volumes:
     - ./.charon:/opt/charon/.charon/
 
