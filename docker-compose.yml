@@ -7,8 +7,8 @@ x-node-base:
   restart: unless-stopped
   networks: [ cluster ]
   # depends_on: [ relay ]
-  # ports:
-  #   - 3610:3610
+  ports:
+    - 3610:3610
   volumes:
     - ./.charon:/opt/charon/.charon/
 
@@ -153,8 +153,6 @@ services:
       CHARON_LOCK_FILE: /opt/charon/.charon/cluster-lock.json
       CHARON_JAEGER_SERVICE: node
       CHARON_P2P_EXTERNAL_HOSTNAME: node
-    ports:
-      - 3610:3610
 
   relay:
     <<: *node-base
