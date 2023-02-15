@@ -152,7 +152,7 @@ services:
       CHARON_PRIVATE_KEY_FILE: /opt/charon/.charon/charon-enr-private-key
       CHARON_LOCK_FILE: /opt/charon/.charon/cluster-lock.json
       CHARON_JAEGER_SERVICE: node
-      CHARON_P2P_EXTERNAL_HOSTNAME: node
+#      CHARON_P2P_EXTERNAL_HOSTNAME: node
 
   relay:
     <<: *node-base
@@ -163,7 +163,7 @@ services:
       CHARON_HTTP_ADDRESS: 0.0.0.0:3640
       CHARON_DATA_DIR: /opt/charon/relay
       CHARON_P2P_RELAYS: ""
-      CHARON_P2P_EXTERNAL_HOSTNAME: relay
+#      CHARON_P2P_EXTERNAL_HOSTNAME: relay
     volumes:
       - ./relay:/opt/charon/relay:rw
 
