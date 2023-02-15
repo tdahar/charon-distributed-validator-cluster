@@ -212,6 +212,10 @@ services:
     networks: [ cluster ]
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./data/prometheus:/prometheus/ # Adjust folder permissions
+    command: |
+      --storage.tsdb.retention.time=1y
+      --config.file=/etc/prometheus/prometheus.yml
 
   grafana:
     image: grafana/grafana:${GRAFANA_VERSION:-9.3.2}
