@@ -24,6 +24,7 @@ x-node-env:
   CHARON_MONITORING_ADDRESS: ${CHARON_MONITORING_ADDRESS:-0.0.0.0:3620}
   CHARON_JAEGER_ADDRESS: ${CHARON_JAEGER_ADDRESS-jaeger:6831} # Overriding to empty address allowed
   CHARON_BUILDER_API: ${CHARON_BUILDER_API:-true}
+  CHARON_LOKI_ADDRESSES: ${CHARON_LOKI_ADDRESSES:-}
 
 services:
   #             _   _                         _           _ 
