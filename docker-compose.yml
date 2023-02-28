@@ -97,6 +97,48 @@ services:
       - ./jwt:/opt/jwt
     restart: unless-stopped
 
+#   _______
+#  |__   __|___  _  _  _   _
+#     | |  / _ \| |/ /| | | |
+#     | | |  __/|   { | |_| |
+#     |_|  \___||_|\_\ \__,_|
+#
+
+  teku:
+    image: consensys/teku:23.2.0
+    restart: unless-stopped
+    init: true
+    networks: [ cluster ]
+    ports:
+      - ${TEKU_PORT_P2P:-9000}:9000/tcp # P2P TCP
+      - ${TEKU_PORT_P2P:-9000}:9000/udp # P2P UDP
+      - ${TEKU_PORT_HTTP:-5051}:5051    # HTTP API
+      - ${TEKU_PORT_METRICS:-8008}:8008 # Metrics
+    command: >-
+      --network=${ETH2_NETWORK:-goerli}
+      --initial-state=https://goerli.checkpoint-sync.ethdevops.io
+      --ee-endpoint=http://nethermind:8551
+      --ee-jwt-secret-file=/opt/jwt/jwt.hex
+      --Xbeacon-liveness-tracking-enabled=true
+      --log-destination=console
+      --data-base-path=/data/teku
+      --rest-api-enabled=true
+      --metrics-enabled=true
+      --metrics-host-allowlist="*"
+      --metrics-interface="0.0.0.0"
+      --metrics-port="8008"
+      --validators-graffiti="Obol Distributed Validator"
+      --Xvalidator-client-executor-threads=1000
+      --validators-proposer-blinded-blocks-enabled=true
+      --builder-endpoint ${TEKU_BUILDER_RELAY_URL:-https://0xafa4c6985aa049fb79dd37010438cfebeb0f2bd42b115b89dd678dab0670c1de38da0c4e9138c9290a398ecd9a0b3110@builder-relay-goerli.flashbots.net}
+      --validators-proposer-default-fee-recipient=${FEE_RECIPIENT}
+
+    volumes:
+      - ./data/teku:/data/teku
+      - ./jwt:/opt/jwt/
+
+
+
   #          _           _               
   #  _ __ (_)_ __ ___ | |__  _   _ ___ 
   # | '_ \| | '_ ` _ \| '_ \| | | / __|
