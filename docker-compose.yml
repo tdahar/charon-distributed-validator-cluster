@@ -97,11 +97,11 @@ services:
       - ./jwt:/opt/jwt
     restart: unless-stopped
 
-#   _______
-#  |__   __|___  _  _  _   _
-#     | |  / _ \| |/ /| | | |
-#     | | |  __/|   { | |_| |
-#     |_|  \___||_|\_\ \__,_|
+#   _
+#  | |_  ___  _  _  _   _
+#  |  _|/ _ \| |/ /| | | |
+#  | |_   __/|   { | |_| |
+#   \__|\___||_|\_\ \__,_|
 #
 
   teku:
@@ -130,7 +130,7 @@ services:
       --metrics-interface="0.0.0.0"
       --metrics-port="8008"
       --validators-graffiti="Obol Distributed Validator"
-      --Xvalidator-client-executor-threads=1000
+      --Xrest-api-validator-threads=100
       --validators-proposer-blinded-blocks-enabled=true
       --builder-endpoint ${TEKU_BUILDER_RELAY_URL:-https://0xafa4c6985aa049fb79dd37010438cfebeb0f2bd42b115b89dd678dab0670c1de38da0c4e9138c9290a398ecd9a0b3110@builder-relay-goerli.flashbots.net}
       --validators-proposer-default-fee-recipient=${FEE_RECIPIENT}

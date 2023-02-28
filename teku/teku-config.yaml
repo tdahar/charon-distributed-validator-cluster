@@ -9,3 +9,4 @@ validators-proposer-default-fee-recipient: ${FEE_RECIPIENT}
 validators-graffiti: ${GRAFFITI}
 validators-proposer-blinded-blocks-enabled: true
 validators-builder-registration-default-enabled: true
+Xvalidator-client-executor-threads: 1000
