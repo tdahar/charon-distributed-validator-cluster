@@ -229,6 +229,7 @@ services:
       FEE_RECIPIENT: ${FEE_RECIPIENT}
       GRAFFITI: ${GRAFFITI}
     volumes:
+      - ./data/lighthouse:/opt/app/
       - ./lighthouse/run.sh:/opt/lighthouse/run.sh
       - .charon/validator_keys:/opt/charon/keys
 
