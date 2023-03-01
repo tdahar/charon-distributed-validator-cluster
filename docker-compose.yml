@@ -233,17 +233,16 @@ services:
       - .charon/validator_keys:/opt/charon/keys
 
   vc-teku:
-    image: consensys/teku:${TEKU_VERSION:-22.12.0}
-    environment:
-      TEKU_VC_THREADS: ${TEKU_VC_THREADS:-100}
-      FEE_RECIPIENT: ${FEE_RECIPIENT}
-      GRAFFITI: ${GRAFFITI}
+    image: consensys/teku:${TEKU_VERSION:-23.2.0}
     networks: [ cluster ]
     depends_on: [ node ]
     restart: unless-stopped
     command: |
       validator-client
       --beacon-node-api-endpoint="http://node:3600"
+      --Xvalidator-client-executor-threads=${TEKU_VC_THREADS:-1000}
+      --validators-proposer-default-fee-recipient=${FEE_RECIPIENT}
+      --validators-graffiti=${GRAFFITI}
       --config-file "/opt/charon/teku/teku-config.yaml"
     volumes:
       - .charon/validator_keys:/opt/charon/validator_keys

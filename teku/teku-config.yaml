@@ -5,8 +5,5 @@ metrics-port: "8008"
 validators-keystore-locking-enabled: false
 network: auto
 validator-keys: "/opt/charon/validator_keys:/opt/charon/validator_keys"
-validators-proposer-default-fee-recipient: ${FEE_RECIPIENT}
-validators-graffiti: ${GRAFFITI}
 validators-proposer-blinded-blocks-enabled: true
 validators-builder-registration-default-enabled: true
-Xvalidator-client-executor-threads: ${TEKU_VC_THREADS}
