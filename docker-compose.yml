@@ -124,6 +124,8 @@ services:
       --log-destination=console
       --data-base-path=/data/teku
       --rest-api-enabled=true
+      --rest-api-host-allowlist="*"
+      --rest-api-interface="0.0.0.0"
       --metrics-enabled=true
       --metrics-host-allowlist="*"
       --metrics-interface="0.0.0.0"
