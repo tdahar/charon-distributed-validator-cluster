@@ -244,10 +244,12 @@ services:
       --Xvalidator-client-executor-threads=${TEKU_VC_THREADS:-1000}
       --validators-proposer-default-fee-recipient=${FEE_RECIPIENT}
       --validators-graffiti=${GRAFFITI}
+      --data-base-path=/data/teku
       --config-file "/opt/charon/teku/teku-config.yaml"
     volumes:
       - .charon/validator_keys:/opt/charon/validator_keys
       - ./teku:/opt/charon/teku
+      - ./data/teku:/data/teku
 
 
   #                        _ _             _
