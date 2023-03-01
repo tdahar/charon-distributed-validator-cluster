@@ -226,6 +226,8 @@ services:
     environment:
       LIGHTHOUSE_BEACON_NODE_ADDRESS: http://node:3600
       ETH2_NETWORK: ${ETH2_NETWORK:-goerli}
+      FEE_RECIPIENT: ${FEE_RECIPIENT}
+      GRAFFITI: ${GRAFFITI}
     volumes:
       - ./lighthouse/run.sh:/opt/lighthouse/run.sh
       - .charon/validator_keys:/opt/charon/keys
