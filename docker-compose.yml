@@ -90,7 +90,6 @@ services:
       --metrics-address=0.0.0.0
       --metrics-port=5054
       --metrics-allow-origin="*"
-      --builder ${LIGHTHOUSE_BUILDER_RELAY_URL:-https://0xafa4c6985aa049fb79dd37010438cfebeb0f2bd42b115b89dd678dab0670c1de38da0c4e9138c9290a398ecd9a0b3110@builder-relay-goerli.flashbots.net}
     networks: [ cluster ]
     volumes:
       - ./data/lighthouse:/opt/app/beacon
@@ -130,9 +129,8 @@ services:
       --metrics-interface="0.0.0.0"
       --metrics-port="8008"
       --validators-graffiti="Obol Distributed Validator"
-      --Xrest-api-validator-threads=100
+      --Xrest-api-validator-threads=${TEKU_BN_THREADS:-100}
       --validators-proposer-blinded-blocks-enabled=true
-      --builder-endpoint ${TEKU_BUILDER_RELAY_URL:-https://0xafa4c6985aa049fb79dd37010438cfebeb0f2bd42b115b89dd678dab0670c1de38da0c4e9138c9290a398ecd9a0b3110@builder-relay-goerli.flashbots.net}
       --validators-proposer-default-fee-recipient=${FEE_RECIPIENT}
 
     volumes:
