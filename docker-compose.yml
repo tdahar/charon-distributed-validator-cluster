@@ -159,7 +159,7 @@ services:
       - ${NIMBUS_PORT_P2P:-9000}:9000/tcp # P2P TCP
       - ${NIMBUS_PORT_P2P:-9000}:9000/udp # P2P UDP
       - ${NIMBUS_PORT_HTTP:-5052}:5052/tcp
-      - ${NIMBUS_PORT_METRICS:-8008}:8009/tcp # Metrics port
+      - ${NIMBUS_PORT_METRICS:-8009}:8008/tcp # Metrics port
     restart: on-failure
     command: |
       --network=${ETH2_NETWORK:-goerli}
@@ -243,7 +243,7 @@ services:
     image: consensys/teku:${TEKU_VERSION:-23.2.0}
     networks: [ cluster ]
     ports:
-      - 8008:8010 # Monitoring
+      - 8010:8008 # Monitoring
     depends_on: [ node ]
     restart: unless-stopped
     command: |
