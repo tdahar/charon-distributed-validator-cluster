@@ -284,9 +284,13 @@ services:
 
   node-exporter:
     image: prom/node-exporter:${NODE_EXPORTER_VERSION:-v1.5.0}
-    ports:
-      - "9100:9100"
-    networks: [ cluster ]
+    command:
+      - '--path.rootfs=/host'
+    network_mode: host
+    pid: host
+    restart: unless-stopped
+    volumes:
+      - '/:/host:ro,rslave'
 
   jaeger:
     image: jaegertracing/all-in-one:${JAEGAR_VERSION:-1.41.0}
