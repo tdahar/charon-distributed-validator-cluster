@@ -159,7 +159,7 @@ services:
       - ${NIMBUS_PORT_P2P:-9000}:9000/tcp # P2P TCP
       - ${NIMBUS_PORT_P2P:-9000}:9000/udp # P2P UDP
       - ${NIMBUS_PORT_HTTP:-5052}:5052/tcp
-      - ${NIMBUS_PORT_METRICS:-8008}:8008/tcp # Metrics port
+      - ${NIMBUS_PORT_METRICS:-8008}:8009/tcp # Metrics port
     restart: on-failure
     command: |
       --network=${ETH2_NETWORK:-goerli}
@@ -194,6 +194,8 @@ services:
   # At each operator machine we run only one Charon node together with one of the two validators configured
   node:
     <<: *node-base
+    ports:
+      - 3620:3620 # Monitoring
     environment:
       <<: *node-env
       CHARON_PRIVATE_KEY_FILE: /opt/charon/.charon/charon-enr-private-key
@@ -202,6 +204,8 @@ services:
 
   relay:
     <<: *node-base
+    ports:
+      - 3620:3620 # Monitoring
     command: relay
     depends_on: []
     environment:
@@ -221,6 +225,8 @@ services:
     image: sigp/lighthouse:${LIGHTHOUSE_VERSION:-v3.4.0}
     entrypoint: /opt/lighthouse/run.sh
     networks: [ cluster ]
+    ports:
+      - 5064:5064 # Monitoring
     depends_on: [ node ]
     restart: unless-stopped
     environment:
@@ -236,6 +242,8 @@ services:
   vc-teku:
     image: consensys/teku:${TEKU_VERSION:-23.2.0}
     networks: [ cluster ]
+    ports:
+      - 8008:8010 # Monitoring
     depends_on: [ node ]
     restart: unless-stopped
     command: |
@@ -260,9 +268,7 @@ services:
   #                                                |___/
   prometheus:
     image: prom/prometheus:${PROMETHEUS_VERSION:-v2.41.0}
-    ports:
-      - "9090:9090"
-    networks: [ cluster ]
+    network_mode: host
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
       - ./data/prometheus:/prometheus/ # Adjust folder permissions

@@ -10,25 +10,29 @@ remote_write:
 scrape_configs:
   - job_name: 'nethermind'
     static_configs:
-      - targets: ['nethermind:8645']
+      - targets: ['localhost:8645']
   - job_name: 'bn-lighthouse'
     static_configs:
-      - targets: ['lighthouse:5054']
+      - targets: ['localhost:5054']
   - job_name: 'bn-nimbus'
     static_configs:
-      - targets: ['nimbus:8008']
+      - targets: ['localhost:8009']
+  
+  - job_name: 'bn-teku'
+    static_configs:
+      - targets: ['localhost:8008']
       
   - job_name: "charon"
     static_configs:
-      - targets: ["node:3620"]
+      - targets: ["localhost:3620"]
 
   - job_name: "vc-lighthouse"
     static_configs:
-      - targets: ["vc-lighthouse:5064"]
+      - targets: ["localhost:5064"]
   - job_name: "vc-teku"
     static_configs:
-      - targets: ["vc-teku:8008"]
+      - targets: ["localhost:8010"]
 
   - job_name: "node-exporter"
     static_configs:
-      - targets: ["node-exporter:9100"]
+      - targets: ["localhost:9100"]
