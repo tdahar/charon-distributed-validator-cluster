@@ -271,7 +271,7 @@ services:
     network_mode: host
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-      - ./data/prometheus:/prometheus/ # Adjust folder permissions
+      - ./data/prometheus:/prometheus/data # Adjust folder permissions
     command: |
       --storage.tsdb.retention.time=1y
       --config.file=/etc/prometheus/prometheus.yml
