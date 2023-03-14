@@ -3,7 +3,7 @@ version: "3.8"
 x-node-base:
   # Pegged charon version (update this for each release).
   &node-base
-  image: obolnetwork/charon:${CHARON_VERSION:-v0.13.0}
+  image: obolnetwork/charon:${CHARON_VERSION:-v0.14.0}
   restart: unless-stopped
   networks: [ cluster ]
   ports:
@@ -131,7 +131,7 @@ services:
       --metrics-interface="0.0.0.0"
       --metrics-port="8008"
       --validators-graffiti="Obol Distributed Validator"
-      --Xrest-api-validator-threads=${TEKU_BN_THREADS:-100}
+      --Xrest-api-validator-threads=${TEKU_BN_THREADS:-1100}
       --validators-proposer-blinded-blocks-enabled=true
       --validators-proposer-default-fee-recipient=${FEE_RECIPIENT}
 
@@ -249,7 +249,7 @@ services:
     command: |
       validator-client
       --beacon-node-api-endpoint="http://node:3600"
-      --Xvalidator-client-executor-threads=${TEKU_VC_THREADS:-1000}
+      --Xvalidator-client-executor-threads=${TEKU_VC_THREADS:-1100}
       --validators-proposer-default-fee-recipient=${FEE_RECIPIENT}
       --validators-graffiti=${GRAFFITI}
       --data-base-path=/data/teku
@@ -268,13 +268,17 @@ services:
   #                                                |___/
   prometheus:
     image: prom/prometheus:${PROMETHEUS_VERSION:-v2.41.0}
-    network_mode: host
+    networks: [ cluster ]
+    ports:
+      - 9090:9090
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
       - ./data/prometheus:/prometheus/data # Adjust folder permissions
     command: |
       --storage.tsdb.retention.time=1y
       --config.file=/etc/prometheus/prometheus.yml
+    extra_hosts:
+      - "host.docker.internal: 172.23.5.254"
 
   grafana:
     image: grafana/grafana:${GRAFANA_VERSION:-9.3.2}
@@ -290,9 +294,11 @@ services:
 
   node-exporter:
     image: prom/node-exporter:${NODE_EXPORTER_VERSION:-v1.5.0}
+    ports:
+      - 9100:9100
     command:
       - '--path.rootfs=/host'
-    network_mode: host
+    networks: [ cluster ]
     pid: host
     restart: unless-stopped
     volumes:
@@ -306,3 +312,10 @@ services:
 
 networks:
   cluster:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.23.0.0/16
+          ip_range: 172.23.5.0/24
+          gateway: 172.23.5.254
