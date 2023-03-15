@@ -33,7 +33,7 @@ services:
   # | | | |  __/ |_| | | |  __/ |  | | | | | | | | | | (_| |
   # |_| |_|\___|\__|_| |_|\___|_|  |_| |_| |_|_|_| |_|\__,_|
   nethermind:
-    image: nethermind/nethermind:${NETHERMIND_VERSION:-1.17.1}
+    image: nethermind/nethermind:${NETHERMIND_VERSION:-1.15.0}
     restart: unless-stopped
     ports:
       - ${NETHERMIND_PORT_P2P:-30303}:30303/tcp # P2P TCP
@@ -104,7 +104,7 @@ services:
 #
 
   teku:
-    image: consensys/teku:23.2.0
+    image: consensys/teku:${TEKU_VERSION:-23.3.0}
     restart: unless-stopped
     init: true
     networks: [ cluster ]
@@ -240,7 +240,7 @@ services:
       - .charon/validator_keys:/opt/charon/keys
 
   vc-teku:
-    image: consensys/teku:${TEKU_VERSION:-23.2.0}
+    image: consensys/teku:${TEKU_VERSION:-23.3.0}
     networks: [ cluster ]
     ports:
       - 8010:8008 # Monitoring
