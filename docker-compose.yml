@@ -109,7 +109,7 @@ services:
     init: true
     networks: [ cluster ]
     environment:
-      JAVA_OPTS: "-Xmx6g -Xms6g"
+      JAVA_OPTS: "-Xmx10g -Xms10g"
     ports:
       - ${TEKU_PORT_P2P:-9000}:9000/tcp # P2P TCP
       - ${TEKU_PORT_P2P:-9000}:9000/udp # P2P UDP
