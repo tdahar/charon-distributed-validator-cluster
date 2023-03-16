@@ -268,9 +268,7 @@ services:
   #                                                |___/
   prometheus:
     image: prom/prometheus:${PROMETHEUS_VERSION:-v2.41.0}
-    networks: [ cluster ]
-    ports:
-      - 9090:9090
+    network_mode: host
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
       - ./data/prometheus:/prometheus/data # Adjust folder permissions
@@ -294,11 +292,9 @@ services:
 
   node-exporter:
     image: prom/node-exporter:${NODE_EXPORTER_VERSION:-v1.5.0}
-    ports:
-      - 9100:9100
+    network_mode: host
     command:
       - '--path.rootfs=/host'
-    networks: [ cluster ]
     pid: host
     restart: unless-stopped
     volumes:
@@ -312,10 +308,3 @@ services:
 
 networks:
   cluster:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.23.0.0/16
-          ip_range: 172.23.5.0/24
-          gateway: 172.23.5.254
