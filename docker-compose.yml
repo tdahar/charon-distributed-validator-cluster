@@ -120,7 +120,7 @@ services:
       --initial-state=https://goerli.checkpoint-sync.ethdevops.io
       --ee-endpoint=http://nethermind:8551
       --ee-jwt-secret-file=/opt/jwt/jwt.hex
-      --Xbeacon-liveness-tracking-enabled=true
+      --beacon-liveness-tracking-enabled=true
       --log-destination=console
       --data-base-path=/data/teku
       --rest-api-enabled=true
